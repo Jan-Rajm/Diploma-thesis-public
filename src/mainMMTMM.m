@@ -149,3 +149,29 @@ ylabel("Frequency [GHz]", "Interpreter", "latex")
 xlim(xLimitsAlpha)
 ylim(yLimitsAlpha)
 grid on
+
+for idx_path = 1:nPaths
+    currentPath = inspectedPaths(1, idx_path);
+    tempFrequency = c_resultFrequency{idx_path, 1}; %2 pi f / c
+    tempBeta = c_resultBeta{idx_path, 1};
+    k0 = 2 * pi * tempFrequency / 3e8;
+
+    % Unnormalization of beta values
+    tempBeta = tempBeta ./ max(tempBeta);
+    tempBeta = tempBeta * (pi / currentPath.pathLength);
+    
+    n = tempBeta ./ k0;
+    
+    % Calculation of appropriate maximal plot vaulue
+    yMax = max(n) / 0.5;
+    yMax = round(yMax) * 0.5 + 0.5;
+   
+    figure
+    plot(tempFrequency, n, "bx")
+    title(currentPath.name)
+    xlabel("Frequency [GHz]")
+    ylabel("Refractive index [-]")
+    ylim([0 yMax])
+    grid on
+
+end
