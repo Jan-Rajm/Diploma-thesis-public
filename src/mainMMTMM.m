@@ -48,9 +48,15 @@ if ~s_settings.processSaved
     m_tParameters = s2abcd(m_sParameters, s_simulationData.Impedance);
     c_allSolutions = cell(nPaths + 1, nFrequencySteps);
     
-    % script of MMTMM itself
-    script_numericMMTMM;
-
+    % scripts of MMTMM itself
+    if s_settings.numeric
+        script_numericMMTMM;
+    end
+    
+    if s_settings.linearized
+        script_linearizedMMTMM;
+    end
+    
     if s_settings.save
         script_saveResults;
     end
